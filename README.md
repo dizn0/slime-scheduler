@@ -7,22 +7,22 @@ single file (`bot.py`), python 3.12, discord.py. runs on one 256mb fly.io machin
 ## commands
 
 **runs**
-- `/expo` – post a boss run. optional day / time dropdowns, then a form for boss, time, size, min level, note. posts a signup card with class buttons, waitlist, reminder 30 min before, auto-lock at start, and a discord scheduled event.
-- `/grind` – same for training parties, single join button.
-- `/upcoming` – list scheduled runs.
-- `/recurring add|list|remove` – runs that post themselves (e.g. weekday zakum at 9pm, card goes up 6h before).
-- `/runs-channel set|clear` – (admin) force cards into specific channels.
+- `/expo` - post a boss run. optional day / time dropdowns, then a form for boss, time, size, min level, note. posts a signup card with class buttons, waitlist, reminder 30 min before, auto-lock at start, and a discord scheduled event.
+- `/grind` - same for training parties, single join button.
+- `/upcoming` - list scheduled runs.
+- `/recurring add|list|remove` - runs that post themselves (e.g. weekday zakum at 9pm, card goes up 6h before).
+- `/runs-channel set|clear` - (admin) force cards into specific channels.
 - host panel on each card: change time, lock, cancel, add someone, auto-cancel rule, post again.
 
 **time**
-- `/tz` – set your timezone. required before posting; the bot asks the first time.
-- `/when fri 9pm` – paste a timestamp everyone sees in their own zone.
-- `/avail`, `/board` – weekly availability grid.
+- `/tz` - set your timezone. required before posting; the bot asks the first time.
+- `/when fri 9pm` - paste a timestamp everyone sees in their own zone.
+- `/avail`, `/board` - weekly availability grid.
 
 **misc**
-- `/price add|lookup|recent|remove|board|merge` – shared price book.
-- `/roll [max]` – d(max).
-- `/sui [max]` – deathroll. roll 1–N, next person rolls 1–(your roll), whoever hits 1 loses.
+- `/price add|lookup|recent|remove|board|merge` - shared price book.
+- `/roll [max]` - d(max).
+- `/sui [max]` - deathroll. roll 1-N, next person rolls 1-(your roll), whoever hits 1 loses.
 
 ## how it stores things
 

@@ -56,7 +56,7 @@ async def post_card(inter, embed, view):
             await inter.response.send_message(f"posted in {ch.mention} → {msg.jump_url}" + nudge, ephemeral=True)
             return msg
         except discord.Forbidden:
-            await inter.response.send_message(f"I can't post in {ch.mention} — give me Send Messages + Embed Links there, or `/runs-channel` to change it", ephemeral=True)
+            await inter.response.send_message(f"I can't post in {ch.mention} - give me Send Messages + Embed Links there, or `/runs-channel` to change it", ephemeral=True)
             return None
     await inter.response.send_message(embed=embed, view=view)
     msg = await inter.original_response()
@@ -214,7 +214,7 @@ async def toggle(inter: discord.Interaction, role: str, deferred=False, label=No
     if deferred or message is not inter.message: await message.edit(embed=embed)
     else: await inter.response.edit_message(embed=embed)
     if status == "waitlisted" and not deferred:
-        note = f"full ({maxp}/{maxp}) — you're **#{len(wl)}** on the waitlist. you'll be moved in and pinged if a spot opens."
+        note = f"full ({maxp}/{maxp}) - you're **#{len(wl)}** on the waitlist. you'll be moved in and pinged if a spot opens."
         if inter.response.is_done(): await inter.followup.send(note, ephemeral=True)
         else: await inter.response.send_message(note, ephemeral=True)
     if moved: await announce_promoted(message.channel, embed, moved)
@@ -281,7 +281,7 @@ class ClassPick(discord.ui.View):
             await i.response.defer()
             remember_class(i.user.id, sel.values[0])
             st = await toggle(i, sel.values[0], deferred=True, message=self.card)
-            if st == "waitlisted": txt = f"run is full — you're on the **waitlist** as **{sel.values[0]}**. you'll be moved in and pinged if a spot opens."
+            if st == "waitlisted": txt = f"run is full - you're on the **waitlist** as **{sel.values[0]}**. you'll be moved in and pinged if a spot opens."
             else: txt = f"signed up as **{sel.values[0]}**. I'll remember that for next time."
             await i.edit_original_response(content=txt, view=None)
         sel.callback = cb; self.add_item(sel)
@@ -307,7 +307,7 @@ async def signup(inter: discord.Interaction):
             await inter.response.defer()
             st = await toggle(inter, cls, deferred=True, message=inter.message)
             if st == "waitlisted":
-                return await inter.followup.send(f"run is full — you're on the **waitlist** as **{cls}** (your last pick). you'll be moved in and pinged if a spot opens. not right?", view=ChangeClass(inter.message, cls), ephemeral=True)
+                return await inter.followup.send(f"run is full - you're on the **waitlist** as **{cls}** (your last pick). you'll be moved in and pinged if a spot opens. not right?", view=ChangeClass(inter.message, cls), ephemeral=True)
             return await inter.followup.send(f"signed up as **{cls}** (your last pick). not right?", view=ChangeClass(inter.message, cls), ephemeral=True)
         if on_wl:
             wc = wl_role(on_wl, roles)
@@ -457,7 +457,7 @@ class SizeModal(discord.ui.Modal, title="change size"):
         new = max(1, min(cap, new))
         count = sum(len(v) for v in roles.values())
         if new < count:
-            return await inter.response.send_message(f"{count} already signed up — remove people first if you want it smaller than that", ephemeral=True)
+            return await inter.response.send_message(f"{count} already signed up - remove people first if you want it smaller than that", ephemeral=True)
         moved = promote(roles, wl, new)
         rebuild(embed, roles, new, wl)
         await self.card.edit(embed=embed)
@@ -640,7 +640,7 @@ class Bot(discord.Client):
         except discord.Forbidden:
             print(f"can't delete in #{m.channel.name}: give me Manage Messages there"); return
         except discord.NotFound: return
-        try: await m.channel.send(f"{m.author.mention} this channel is cards only — use `/expo` or `/grind` here, chat elsewhere", delete_after=8)
+        try: await m.channel.send(f"{m.author.mention} this channel is cards only - use `/expo` or `/grind` here, chat elsewhere", delete_after=8)
         except Exception: pass
 
     async def setup_hook(self):
@@ -692,7 +692,7 @@ class TzGate(discord.ui.View):
 
 async def start_post(inter, kind):
     if str(inter.user.id) not in load_tz():
-        return await inter.response.send_message("first time posting — set your timezone so the time you type lands right for everyone:", view=TzGate(kind), ephemeral=True)
+        return await inter.response.send_message("first time posting - set your timezone so the time you type lands right for everyone:", view=TzGate(kind), ephemeral=True)
     what = "**pick day and time (or skip), then hit the green button.** the boss / map and everything else go in the form."
     await inter.response.send_message(what, view=PrePick(kind), ephemeral=True)
 
@@ -715,14 +715,14 @@ async def runs_add(inter: discord.Interaction, channel: discord.TextChannel):
     d = load_settings(); ids = d.setdefault("runs_channels", {}).setdefault(str(inter.guild_id), [])
     if channel.id not in ids: ids.append(channel.id)
     save_settings(d)
-    await inter.response.send_message(f"ok — {channel.mention} is a runs channel. `/expo` typed in it posts there; typed elsewhere it goes to the runs channel in the same category (or the first one if none matches). now: " + ", ".join(f"<#{i}>" for i in ids), ephemeral=True)
+    await inter.response.send_message(f"ok - {channel.mention} is a runs channel. `/expo` typed in it posts there; typed elsewhere it goes to the runs channel in the same category (or the first one if none matches). now: " + ", ".join(f"<#{i}>" for i in ids), ephemeral=True)
 
 @runs_group.command(name="remove", description="stop treating a channel as a runs channel")
 async def runs_remove(inter: discord.Interaction, channel: discord.TextChannel):
     d = load_settings(); ids = d.setdefault("runs_channels", {}).setdefault(str(inter.guild_id), [])
     if channel.id in ids: ids.remove(channel.id)
     save_settings(d)
-    await inter.response.send_message(f"removed {channel.mention}. now: " + (", ".join(f"<#{i}>" for i in ids) or "none — cards post wherever the command is typed"), ephemeral=True)
+    await inter.response.send_message(f"removed {channel.mention}. now: " + (", ".join(f"<#{i}>" for i in ids) or "none - cards post wherever the command is typed"), ephemeral=True)
 
 @runs_group.command(name="list", description="show the current runs channels")
 async def runs_list(inter: discord.Interaction):
@@ -769,7 +769,7 @@ async def when(inter: discord.Interaction, time: str):
     d = parse_time(time, user_tz(inter.user.id))
     if not d: return await inter.response.send_message("couldn't read that time", ephemeral=True)
     ts = int(d.timestamp())
-    await inter.response.send_message(f"<t:{ts}:F> (<t:{ts}:R>)  —  copy: `<t:{ts}:F>`")
+    await inter.response.send_message(f"<t:{ts}:F> (<t:{ts}:R>)  -  copy: `<t:{ts}:F>`")
 
 @bot.tree.command(name="upcoming", description="list scheduled runs and parties")
 async def upcoming(inter: discord.Interaction):
@@ -791,7 +791,7 @@ def block_label(name, h1, h2):
     """label a block with timestamps so each reader sees their own local hours."""
     base = dt.datetime.now(zoneinfo.ZoneInfo(DEFAULT_TZ)).replace(hour=0, minute=0, second=0, microsecond=0)
     a = int((base + dt.timedelta(hours=h1)).timestamp()); b = int((base + dt.timedelta(hours=h2)).timestamp())
-    return f"`{name}` <t:{a}:t>–<t:{b}:t>"
+    return f"`{name}` <t:{a}:t>-<t:{b}:t>"
 
 BLOCK_IDS = [b[0] for b in BLOCKS]
 
@@ -877,7 +877,7 @@ def local_block_hours(name, h1, h2, tzname):
     a = (base + dt.timedelta(hours=h1)).astimezone(z); b = (base + dt.timedelta(hours=h2)).astimezone(z)
     f = lambda t: t.strftime("%I:%M %p").lstrip("0")
     day_note = "" if a.date() == base.date() else (" (next day)" if a.date() > base.date() else " (prev day)")
-    return f"{f(a)} – {f(b)}{day_note}"
+    return f"{f(a)} - {f(b)}{day_note}"
 
 def sched_text(sched):
     if not sched: return "nothing set yet"
@@ -1129,7 +1129,7 @@ def render_price_board(entries):
         e.add_field(name="items", value="nothing yet", inline=False); return e
     lines = []
     for name, mid, lo, hi, n, last in stats:
-        rng = f" ({fmt_mesos(lo)}–{fmt_mesos(hi)})" if lo != hi else ""
+        rng = f" ({fmt_mesos(lo)}-{fmt_mesos(hi)})" if lo != hi else ""
         lines.append(f"**{name}** · {fmt_mesos(mid)}{rng} · {n}× · <t:{last}:d>")
     chunk, i = [], 1
     for ln in lines:
@@ -1368,7 +1368,7 @@ async def recur_add(inter: discord.Interaction, kind: app_commands.Choice[str], 
     d["items"].append(item); d["next"] += 1; save_recur(d)
     nxt = next_start(item, dt.datetime.now(dt.timezone.utc))
     await inter.response.send_message(
-        f"ok — **{item['name']}** will post in {ch.mention} every **{fmt_days(dl)}** at **{hm[0]:02d}:{hm[1]:02d}** ({item['tz']}), "
+        f"ok - **{item['name']}** will post in {ch.mention} every **{fmt_days(dl)}** at **{hm[0]:02d}:{hm[1]:02d}** ({item['tz']}), "
         f"{lead}h before start. first one: <t:{int(nxt.timestamp())}:F>. `#{item['id']}` · `/recurring remove {item['id']}` to stop it", ephemeral=True)
 
 @recur.command(name="list", description="show the recurring runs")
