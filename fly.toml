@@ -1,0 +1,16 @@
+app = "gumobot-dizno"
+primary_region = "ewr"
+
+[build]
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"
+
+[processes]
+  bot = "python -u bot.py"
+
+[mounts]
+  source = "data"
+  destination = "/data"
+  processes = ["bot"]
